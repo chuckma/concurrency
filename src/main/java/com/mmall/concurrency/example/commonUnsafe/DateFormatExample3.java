@@ -13,7 +13,6 @@ import java.util.concurrent.Semaphore;
 
 /**
  * Created by Charles Date:2018/3/22
- * 如果要使用 SimpleDateFormat 必须每次申明一个新的对象才能避免线程安全问题
  */
 @Slf4j
 @ThreadSafe
@@ -21,10 +20,10 @@ public class DateFormatExample3 {
 
 
     // 请求总数
-    public static int clientTotal = 5000;
+    public static int clientTotal = 200;
 
     // 同时并发执行的线程数
-    public static int threadTotal = 200;
+    public static int threadTotal = 100;
 
     private static DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyyMMdd");
 

@@ -29,9 +29,9 @@ public class ImmutableExample1 {
     }
 
     public static void main(String[] args) {
-//        a = 2 ;
-//        b ="3";
-//        map = Maps.newHashMap();
+//        a = 2 ;     // 修饰基础类型数据, 不可被修改
+//        b ="3";     // 修饰基础类型数据, 不可被修改
+//        map = Maps.newHashMap();    // 修饰引用类型的变量的话,不能再指向另外的一个对象
         map.put(1, 3);
         log.info("{}", map.get(1));
 

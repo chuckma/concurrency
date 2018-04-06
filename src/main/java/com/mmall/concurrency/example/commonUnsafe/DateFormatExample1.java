@@ -52,7 +52,7 @@ public class DateFormatExample1 {
 
     private static void add(){
         try {
-            simpleDateFormat.parse("20180233");
+            simpleDateFormat.parse("20180405");
         } catch (ParseException e) {
             log.error("parse Exception", e);
         }

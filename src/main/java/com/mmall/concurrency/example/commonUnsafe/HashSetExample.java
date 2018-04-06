@@ -3,8 +3,8 @@ package com.mmall.concurrency.example.commonUnsafe;
 import com.mmall.concurrency.annoations.NotThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,7 +24,7 @@ public class HashSetExample {
     // 同时并发执行的线程数
     public static int threadTotal = 200;
 
-    private static List<Integer> list = new ArrayList<>();
+    private static Set<Integer> set = new HashSet<>();
 
     public static void main(String[] args) throws Exception {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -45,10 +45,10 @@ public class HashSetExample {
         }
         countDownLatch.await();
         executorService.shutdown();
-        log.info("size:{}", list.size());
+        log.info("size:{}", set.size());
     }
 
     private static void update(int i) {
-        list.add(i);
+        set.add(i);
     }
 }

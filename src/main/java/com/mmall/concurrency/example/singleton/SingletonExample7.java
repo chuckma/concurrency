@@ -29,6 +29,7 @@ public class SingletonExample7 {
 
         private SingletonExample7 singleton;
 
+        // JVM保证这个方法绝对只调用一次
         Singleton() {
             singleton = new SingletonExample7();
         }
