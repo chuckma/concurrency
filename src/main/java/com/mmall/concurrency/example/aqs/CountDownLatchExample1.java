@@ -8,6 +8,10 @@ import java.util.concurrent.Executors;
 
 /**
  * Created by Charles Date:2018/3/25
+ *
+ * CountDownLatch 允许一个或多个线程等待其他线程完成操作
+ *
+ * countDown 减一操作 ， await是让线程阻塞， 当countDown 操作减为 0，await不再阻塞当前线程
  */
 @Slf4j
 public class CountDownLatchExample1 {

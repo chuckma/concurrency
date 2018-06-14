@@ -8,6 +8,9 @@ import java.util.concurrent.Semaphore;
 
 /**
  * Created by Charles Date:2018/3/25
+ *
+ * semaphore 信号量 ，用老控制同时访问资源的线程数量
+ * 应用场景， 数据库的限制连接数
  */
 @Slf4j
 public class SemaphoreExample1 {
