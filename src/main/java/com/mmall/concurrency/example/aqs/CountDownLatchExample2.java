@@ -32,6 +32,7 @@ public class CountDownLatchExample2 {
                 }
             });
         }
+        // 等待时间一过，就不再阻塞线程
         countDownLatch.await(10, TimeUnit.MILLISECONDS);
         log.info("finish");
         exec.shutdown();
