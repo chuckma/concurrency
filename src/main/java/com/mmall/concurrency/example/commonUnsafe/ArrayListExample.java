@@ -12,7 +12,7 @@ import java.util.concurrent.Semaphore;
 
 /**
  * Created by Charles Date:2018/3/24
- *  线程不去安全
+ *  线程不安全
  */
 
 @Slf4j
