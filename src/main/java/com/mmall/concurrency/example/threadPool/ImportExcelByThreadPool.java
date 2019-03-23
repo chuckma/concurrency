@@ -11,15 +11,19 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  */
 @Slf4j
 public class ImportExcelByThreadPool {
 
+    private final static Lock lock = new ReentrantLock();
+
     public static void main(String[] args) {
         //处理器核心数
-        int processor = Runtime.getRuntime().availableProcessors();
+        int processor = Runtime.getRuntime().availableProcessors() * 2;
         //HSSFWorkbook 一个sheet页只能写入六万多条数据
         HSSFWorkbook workBook = new HSSFWorkbook();
         //创建格式
@@ -42,7 +46,7 @@ public class ImportExcelByThreadPool {
         hssfCell.setCellStyle(style);
         hssfCell.setCellValue("第" + 1 + "个sheet页，第一行，第三个单元格");
 
-        processor = 80;
+//        processor = 80;
         //手工创建线程池
         ExecutorService executorService = new ThreadPoolExecutor(processor, processor, 1000, TimeUnit.MILLISECONDS, new LinkedBlockingDeque(),
                 new ThreadFactoryBuilder().setNameFormat("poi-task-%d").build());
@@ -52,10 +56,11 @@ public class ImportExcelByThreadPool {
         long startTime = System.currentTimeMillis();
 
         for (int i = 1; i <= processor; i++) {
-            int start = (i - 1) * 2000 + 1;
-            int end = i * 2000;
+            int start = (i - 1) * 100 + 1;
+            int end = i * 100;
             //放入线程池中
             executorService.execute(() -> createRows(sheet, start, end, countDownLatch));
+//            createRows(sheet, start, end, countDownLatch);
         }
         try {
             //等待所有线程执行完毕
@@ -67,7 +72,8 @@ public class ImportExcelByThreadPool {
         }
         FileOutputStream fou = null;
         try {
-            fou = new FileOutputStream("E:\\threadpool\\multiSheet.xls");
+//            fou = new FileOutputStream("E:\\threadpool\\multiSheet.xls");
+            fou = new FileOutputStream("/Users/lucasma/IdeaProjects/concurrency/test.xls");
             workBook.write(fou);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -116,8 +122,14 @@ public class ImportExcelByThreadPool {
      * @return
      */
     private static HSSFRow getRows(HSSFSheet hSSFSheet, int row) {
-        synchronized (Object.class) {
+        lock.lock();
+        try {
             return hSSFSheet.createRow(row);
+        }finally {
+            lock.unlock();
         }
+        /*synchronized (Object.class) {
+            return hSSFSheet.createRow(row);
+        }*/
     }
 }
