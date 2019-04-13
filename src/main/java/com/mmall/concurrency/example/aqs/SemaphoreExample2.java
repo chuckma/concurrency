@@ -25,6 +25,11 @@ public class SemaphoreExample2 {
             final int threadNum = i;
             exec.execute(() -> {
                 try {
+                    /**
+                     *  一次性获取了 3 个许可，而 semaphore 每次控制也是 3 个
+                     *  同一时间没有其他许可可以获取，就只能执行一次 test(),此时
+                     *  就和单线程很像了
+                     */
                     semaphore.acquire(3); // 获取多个许可
                     test(threadNum);
                     semaphore.release(3); // 释放多个许可

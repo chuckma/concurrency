@@ -25,6 +25,9 @@ public class SemaphoreExample4 {
             final int threadNum = i;
             exec.execute(() -> {
                 try {
+                    /**
+                     * 只执行 5 秒 以内的
+                     */
                     if (semaphore.tryAcquire(5000, TimeUnit.MILLISECONDS)) { // 尝试获取一个许可
                         test(threadNum);
                         semaphore.release(); // 释放一个许可

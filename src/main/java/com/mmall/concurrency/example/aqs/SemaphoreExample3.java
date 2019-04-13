@@ -24,6 +24,11 @@ public class SemaphoreExample3 {
             final int threadNum = i;
             exec.execute(() -> {
                 try {
+                    /**
+                     * 当前运行的并发数是 3 ，超过 3 的时候我们就想丢弃它
+                     * 线程池里有 20 个请求 ，semaphore 只放行了 3 个，其他的
+                     * 都丢弃了
+                     */
                     if (semaphore.tryAcquire()) { //  尝试获取一个许可
                         test(threadNum);
                         semaphore.release(); // 释放一个许可
