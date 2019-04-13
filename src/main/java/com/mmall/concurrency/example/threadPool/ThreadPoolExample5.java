@@ -32,7 +32,7 @@ public class ThreadPoolExample5 {
      *
      */
 
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) throws InterruptedException, IOException, ExecutionException {
         int corePoolSize = 8;
         int maximumPoolSize = 16;
         long keepAliveTime = 10;
@@ -44,14 +44,22 @@ public class ThreadPoolExample5 {
                 workQueue, threadFactory, handler);
         executor.prestartAllCoreThreads(); // 预启动所有核心线程
 
-        for (int i = 1; i <= 1000; i++) {
-            MyTask task = new MyTask(String.valueOf(i));
+        Future submit1 = null;
+        for (int i = 1; i <= 10; i++) {
+           /* MyTask task = new MyTask(String.valueOf(i));
+            Future<?> submit = executor.submit(task);*/
 //            executor.execute(task);
-            Future<?> submit = executor.submit(task);
+            NewTask newTask = new NewTask(String.valueOf(i));
+             submit1 = executor.submit(newTask);
+            try {
+                System.out.println(submit1.get());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
 //            System.out.println(submit.get());
         }
         executor.shutdown();
-
+        System.out.println("***** "+submit1.get());
         ThreadPoolExecutor tpe = ((ThreadPoolExecutor) executor);
 
         while (true) {
@@ -68,6 +76,8 @@ public class ThreadPoolExample5 {
 
             long taskCount = tpe.getTaskCount();
             System.out.println("总线程数：" + taskCount);
+
+            System.out.println(tpe.getCorePoolSize());
 
             Thread.sleep(3000);
         }
@@ -124,6 +134,25 @@ public class ThreadPoolExample5 {
             return "MyTask [name=" + name + "]";
         }
 
+    }
+
+    static class NewTask implements Callable{
+        private String name;
+
+        public NewTask(String name) {
+            this.name = name;
+        }
+        @Override
+        public String  call() throws Exception {
+            System.out.println(this.toString() + "is running ！");
+            Thread.sleep(3000);
+            return "OK";
+        }
+
+        @Override
+        public String toString() {
+            return "NewTask [name = ]"+name+"]";
+        }
     }
 }
 

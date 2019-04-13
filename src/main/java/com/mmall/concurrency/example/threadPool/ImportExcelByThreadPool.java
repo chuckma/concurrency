@@ -21,7 +21,7 @@ public class ImportExcelByThreadPool {
 
     private final static Lock lock = new ReentrantLock();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         //处理器核心数
         int processor = Runtime.getRuntime().availableProcessors() * 2;
         //HSSFWorkbook 一个sheet页只能写入六万多条数据
@@ -54,12 +54,14 @@ public class ImportExcelByThreadPool {
         CountDownLatch countDownLatch = new CountDownLatch(processor);
 
         long startTime = System.currentTimeMillis();
-
+        Future<?> submit = null;
         for (int i = 1; i <= processor; i++) {
             int start = (i - 1) * 100 + 1;
             int end = i * 100;
             //放入线程池中
-            executorService.execute(() -> createRows(sheet, start, end, countDownLatch));
+//            executorService.execute(() -> createRows(sheet, start, end, countDownLatch));
+            submit =  executorService.submit(() -> createRows(sheet, start, end, countDownLatch));
+            System.out.println(submit.get().toString());
 //            createRows(sheet, start, end, countDownLatch);
         }
         try {
