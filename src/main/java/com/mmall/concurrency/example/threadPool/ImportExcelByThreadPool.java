@@ -59,9 +59,8 @@ public class ImportExcelByThreadPool {
             int start = (i - 1) * 100 + 1;
             int end = i * 100;
             //放入线程池中
-//            executorService.execute(() -> createRows(sheet, start, end, countDownLatch));
-            submit =  executorService.submit(() -> createRows(sheet, start, end, countDownLatch));
-            System.out.println(submit.get().toString());
+            executorService.execute(() -> createRows(sheet, start, end, countDownLatch));
+//                System.out.println(submit.get().toString());
 //            createRows(sheet, start, end, countDownLatch);
         }
         try {
