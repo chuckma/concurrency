@@ -25,12 +25,12 @@ public class WaitNotifyPrintOddEveWait {
 
         @Override
         public void run() {
-            while (count <= 100) {
+            while (count <= 10000000) {
                 synchronized (lock) {
                     // 拿到锁就打印
                     System.out.println(Thread.currentThread().getName() + ":" + count++);
                     lock.notify();
-                    if (count <= 100) {
+                    if (count <= 10000000) {
                         try {
                             // 如果任务还没结束，就让出当前的锁，并休眠
                             lock.wait();
