@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 演示计数不准确（减少），找出具体出错的位置。
  **/
 
-public class MultiThreadError implements Runnable {
+public class MultiThreadsError implements Runnable {
     int index = 0;
 
     final boolean[] marked = new boolean[10000000];
@@ -25,7 +25,7 @@ public class MultiThreadError implements Runnable {
     static volatile CyclicBarrier cyclicBarrier2 = new CyclicBarrier(2);
 
 
-    static MultiThreadError instance = new MultiThreadError();
+    static MultiThreadsError instance = new MultiThreadsError();
 
     public static void main(String[] args) throws InterruptedException {
         Thread thread1 = new Thread(instance);
