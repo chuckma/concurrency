@@ -36,7 +36,7 @@ public class TransferMoney implements Runnable {
         }
     }
 
-    public void transferMoney(Account from, Account to, int amount) {
+    public static void transferMoney(Account from, Account to, int amount) {
         // 先获取自己的锁
         synchronized (from) {
 
