@@ -2,11 +2,16 @@ package com.mmall.concurrency.nicetyexplain.deadlock;
 
 /**
  * 转账时候遇到死锁，一旦打开注释，便会发生死锁
+ *
+ * 用换序来避免转账死锁
+ * 每个Java对象都有一个 hash 值，通过这个 hash 值来排序
  */
 public class TransferMoney implements Runnable {
     int flag = 1;
     static Account a = new Account(500);
     static Account b = new Account(500);
+
+    static Object lock = new Object();
 
     public static void main(String[] args) throws InterruptedException {
         TransferMoney r1 = new TransferMoney();
@@ -37,15 +42,50 @@ public class TransferMoney implements Runnable {
     }
 
     public static void transferMoney(Account from, Account to, int amount) {
-        // 先获取自己的锁
+
+        class Helper{
+            public void transfer() {
+                if (from.balance - amount < 0) {
+                    System.out.println("余额不足，转账失败。");
+                }
+                from.balance -= amount;
+                to.balance += amount;
+                System.out.println("成功转账" + amount + "元");
+            }
+        }
+
+        int fromHash = System.identityHashCode(from);
+        int toHash = System.identityHashCode(to);
+        if (fromHash < toHash) {
+            synchronized (from) {
+                synchronized (to) {
+                    new Helper().transfer();
+                }
+            }
+        } else if (fromHash > toHash) {
+            synchronized (to) {
+                synchronized (from) {
+                    new Helper().transfer();
+                }
+            }
+        } else {
+            synchronized (lock) {
+                synchronized (to) {
+                    synchronized (from) {
+                        new Helper().transfer();
+                    }
+                }
+            }
+        }
+       /* // 先获取自己的锁
         synchronized (from) {
 
             // 这里如果等待 500 毫秒的话，就会死锁了
-           /* try {
+           *//* try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }*/
+            }*//*
             // 再对接收钱的账户加锁
             synchronized (to) {
                 if (from.balance - amount < 0) {
@@ -55,7 +95,7 @@ public class TransferMoney implements Runnable {
                 to.balance += amount;
                 System.out.println("成功转账" + amount + "元");
             }
-        }
+        }*/
     }
 
     static class Account {
