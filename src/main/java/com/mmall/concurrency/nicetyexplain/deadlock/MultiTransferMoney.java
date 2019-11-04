@@ -6,6 +6,12 @@ import java.util.Random;
  * @author Administrator
  *
  * 多人同时转账，依然很危险，
+ *
+ * deadlock  4个必要条件
+ * 1 互斥条件 （我用的时候别人就不能用）
+ * 2 请求保持条件
+ * 3 不剥夺条件 （不能有外界来干扰的）
+ * 4 循环等待条件
  */
 public class MultiTransferMoney {
 
