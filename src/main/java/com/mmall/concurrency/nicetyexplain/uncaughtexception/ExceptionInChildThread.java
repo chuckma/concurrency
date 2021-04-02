@@ -25,6 +25,7 @@ public class ExceptionInChildThread implements Runnable{
     }
     @Override
     public void run() {
+        // 子线程抛出异常
         throw new RuntimeException();
     }
 }
