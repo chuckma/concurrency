@@ -15,12 +15,12 @@ public class ThreadPoolExample1 {
          */
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             final int index = i;
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
-                    log.info("task:{}", index);
+                    log.info("Thread {},task:{}",Thread.currentThread().getName(), index);
                 }
             });
         }

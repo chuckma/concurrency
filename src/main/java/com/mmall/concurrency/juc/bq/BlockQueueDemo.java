@@ -15,7 +15,8 @@ public class BlockQueueDemo {
 //        test1ThrowException();
 //        test2NotThrowException();
 //        test3();
-        test4();
+//        test4();
+        System.out.println(Runtime.getRuntime().availableProcessors());
     }
 
 
