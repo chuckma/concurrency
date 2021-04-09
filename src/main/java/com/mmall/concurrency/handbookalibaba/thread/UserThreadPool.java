@@ -35,7 +35,7 @@ public class UserThreadPool {
         // 创建 400 个任务线程
 
         Runnable task = new Task();
-        for (int i = 0; i < 400; i++) {
+        for (int i = 0; i < 200; i++) {
             threadPoolExecutorFirst.execute(task);
             threadPoolExecutorSecond.execute(task);
         }
